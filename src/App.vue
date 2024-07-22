@@ -1,5 +1,7 @@
 <template>
-  <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
 
 <script setup>
@@ -7,3 +9,4 @@
 
 <style scoped>
 </style>
+
