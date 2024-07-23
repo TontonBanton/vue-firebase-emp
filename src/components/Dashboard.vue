@@ -1,8 +1,18 @@
 <template>
   <div id="dashboard">
-    <h3>Dashboard</h3>
-    <ul>
-      <li v-for="employee in employees" :key="employee.id">{{ employee.name }}</li>
+    <ul class="collection with-header">
+      <li class="collection-header"><h4>Employees</h4></li>
+
+      <!-- Loop every employee in employees array dynamic bind employee.id as key -->
+      <li v-for="employee in employees" v-bind:key="employee.id" class="collection-item">
+        <div class="chip">{{ employee.dept }}</div> {{ employee.empid }} : {{employee.name }}
+
+        <!-- Route router/index.js name:view-employee, path: '/:employee_id (expecting the employee.empid value) -->
+        <router-link class="secondary-content" :to="{ name: 'view-employee', params: { employee_id: employee.empid }}">
+        <i class="fa fa-eye"></i>
+        </router-link>
+      </li>
+
     </ul>
 
     <div class="fixed-action-btn">
@@ -14,22 +24,30 @@
 </template>
 
 <script setup>
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import db from './firebaseInit';
 import { ref, onMounted } from 'vue';
 
 const employees = ref([]);
 
 onMounted(async () => {
-  const querySnapshot = await getDocs(collection(db, 'employees'));
-  querySnapshot.forEach(doc => {
-    employees.value.push({ id: doc.id, ...doc.data() });
+  const employeesQuery = query(collection(db, 'employees'), orderBy('dept'));   // query with orderBy to sort by the 'dept'
+  const querySnapshot = await getDocs(employeesQuery);                          // Fetch documents with the query
+
+  querySnapshot.forEach(doc => {                                                //iterates each document in the employees collection
+    const data = {
+      'id': doc.id,
+      'empid': doc.data().employee_id,
+      'name': doc.data().name,
+      'dept': doc.data().dept,
+      'position': doc.data().position
+    }
+    employees.value.push(data)
   });
 });
+
 </script>
 
 <style scoped>
-#dashboard {
-  padding: 20px;
-}
+
 </style>
