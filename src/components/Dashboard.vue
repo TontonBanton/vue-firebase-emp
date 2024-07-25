@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import db from './firebaseInit';
 
@@ -45,7 +45,7 @@ const fetchData = async () => {
   });
 };
 
-onMounted(fetchData);
+onBeforeMount(fetchData);
 </script>
 
 <style scoped>
