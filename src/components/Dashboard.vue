@@ -5,20 +5,20 @@
 
       <!-- Loop every employee in employees array dynamic bind employee.id as key -->
       <li v-for="employee in employees" v-bind:key="employee.id" class="collection-item">
-        <div class="chip">{{ employee.empid }}</div> {{ employee.name }} : {{employee.dept }}
+        <div class="chip">{{ employee.empid }}</div> {{ employee.name }} : {{employee.dept }}-{{ employee.position }}
         <!-- Route router/index.js name:view-employee, path: '/:employee_id (expecting the employee.empid value) -->
-        <router-link class="secondary-content" :to="{ name: 'view-employee', params: { employee_id: employee.empid }}">
+        <router-link :to="{ name: 'view-employee', params: { employee_id: employee.empid }}" class="secondary-content" >
           <i class="fa fa-eye"></i>
         </router-link>
       </li>
 
     </ul>
-
     <div class="fixed-action-btn">
       <router-link to="/new" class="btn-floating btn-large red">
         <i class="fa fa-plus"></i>
       </router-link>
-    </div>
+      </div>
+
   </div>
 </template>
 
@@ -30,10 +30,10 @@ import db from './firebaseInit';
 const employees = ref([]);
 
 const fetchData = async () => {
-  const employeesQuery = query(collection(db, 'employees'), orderBy('employee_id'));   // query with orderBy to sort by the 'dept'
-  const querySnapshot = await getDocs(employeesQuery);                          // Fetch documents with the query
+  const employeesQuery = query(collection(db, 'employees'), orderBy('employee_id'));  // query with orderBy to sort by the 'dept'
+  const querySnapshot = await getDocs(employeesQuery);                                // Fetch documents with the query
 
-  querySnapshot.forEach(doc => {                                                // iterates each document in the employees collection
+  querySnapshot.forEach(doc => {                                                      // iterates each document in the employees collection
     const data = {
       'id': doc.id,
       'empid': doc.data().employee_id,

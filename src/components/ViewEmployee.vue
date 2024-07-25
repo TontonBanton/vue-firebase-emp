@@ -5,8 +5,15 @@
       <li class="collection-item">Employee Id: {{ employee.empid }} </li>
       <li class="collection-item">Department: {{ employee.dept }}</li>
       <li class="collection-item">Position: {{ employee.position }} </li>
+
+      <div class="fixed-action-btn">
+        <router-link :to="{ name: 'edit-employee', params: { employee_id: employee.empid }}" class="btn-floating btn-large red">
+          <i class="fa fa-pencil"></i>
+        </router-link>
+      </div>
     </ul>
   </div>
+
   <router-link to="/" class="btn grey" >Back</router-link>
   <button @click="deleteEmployee" class="btn red" >Delete</button>
 </template>
@@ -23,10 +30,10 @@ const employees = ref([]);
 
 const fetchData = async () => {
   const employeeId = route.params.employee_id;
-  const employeesQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId)); // query with where to filter by employee_id
-  const querySnapshot = await getDocs(employeesQuery); // Fetch documents with the query
+  const employeesQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));  // query with where to filter by employee_id
+  const querySnapshot = await getDocs(employeesQuery);                                                // Fetch documents with the query
 
-  querySnapshot.forEach(doc => {                                                // iterates each document in the employees collection
+  querySnapshot.forEach(doc => {                                                                       // iterates each document in the employees collection
     const data = {
       'id': doc.id,
       'empid': doc.data().employee_id,
