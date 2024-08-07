@@ -17,8 +17,7 @@
       <router-link to="/new" class="btn-floating btn-large red">
         <i class="fa fa-plus"></i>
       </router-link>
-      </div>
-
+    </div>
   </div>
 </template>
 
