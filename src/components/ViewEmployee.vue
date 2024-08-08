@@ -7,7 +7,7 @@
       <li class="collection-item">Position: {{ employee.position }} </li>
 
       <div class="fixed-action-btn">
-        <router-link :to="{ name: 'edit-employee', params: { employee_id: employee.empid }}" class="btn-floating btn-large red">
+        <router-link :to="{ name: 'edit-employee', params: { employee_id: employee.empid }}" class="btn-floating btn-large orange darken-4">
           <i class="fa fa-pencil"></i>
         </router-link>
       </div>
@@ -15,7 +15,7 @@
   </div>
 
   <router-link to="/" class="btn grey" >Back</router-link>
-  <button @click="deleteEmployee" class="btn red" >Delete</button>
+  <button @click="deleteEmployee" class="btn orange darken-4" >Delete</button>
 </template>
 
 <script setup>
