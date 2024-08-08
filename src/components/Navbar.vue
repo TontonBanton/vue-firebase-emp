@@ -30,7 +30,6 @@ const logout = async () => {
     await signOut(auth);
     isLoggedIn.value = false;
     currentUser.value = false;
-    alert(`isLoggedIn: ${isLoggedIn.value}, currentUser: ${currentUser.value}`);
     router.push('/login');
   } catch (error) {
     console.error('Error signing out:', error);
