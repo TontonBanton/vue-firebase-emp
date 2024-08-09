@@ -29,14 +29,14 @@
 import { ref } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const email = ref('');
 const password = ref('');
-const router = useRouter();
 
 const login = async () => {
   try {
-    //Creating the fire
+    //Sign-in the firestore user
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     alert(`You are log-in ${userCredential.user.email}`);

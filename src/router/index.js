@@ -16,7 +16,6 @@ const routes = [
   { path: '/register', name: 'register', component: Register, meta: {requiresGuest:true} },
 ]
 
-// Create and configure the router
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
@@ -27,8 +26,13 @@ router.beforeEach((to, from, next) => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !user) {
-    next({ name: 'login' });
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);    // check route that requires authentication
+  const requiresGuest = to.matched.some(record => record.meta.requiresGuest);  // Route that requires guest (non-authenticated) access
+
+  if (requiresAuth) {                                                             //RequiresAuth
+    !user ? next({ path: '/login', query: { redirect: to.fullPath } }) : next();  //Check if if no user is log-in go to login
+  } else if (requiresGuest) {                                                     //RequiresGuest (Register,Login)
+    user ? next({ path: '/', query: { redirect: to.fullPath } }) : next();        //Check if user is log-in go to dashboard
   } else {
     next();
   }

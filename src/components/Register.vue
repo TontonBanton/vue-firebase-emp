@@ -36,7 +36,7 @@ const router = useRouter();
 
 const register = async () => {
   try {
-    //Creating the fire
+    //Creating the firestore user
     const auth = getAuth();
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     alert(`Account created for ${userCredential.user.email}`);
