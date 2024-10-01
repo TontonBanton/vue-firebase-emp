@@ -1,29 +1,9 @@
-<template>
-  <div id="view-employee">
-    <ul  v-for="employee in employees" :key="employee.id" class="collection with-header" >
-      <li class="collection-header"><h4>{{ employee.name }}</h4></li>
-      <li class="collection-item">Employee Id: {{ employee.empid }} </li>
-      <li class="collection-item">Department: {{ employee.dept }}</li>
-      <li class="collection-item">Position: {{ employee.position }} </li>
-
-      <div class="fixed-action-btn">
-        <router-link :to="{ name: 'edit-employee', params: { employee_id: employee.empid }}" class="btn-floating btn-large orange darken-4">
-          <i class="fa fa-pencil"></i>
-        </router-link>
-      </div>
-    </ul>
-  </div>
-
-  <router-link to="/" class="btn grey" >Back</router-link>
-  <button @click="deleteEmployee" class="btn orange darken-4" >Delete</button>
-</template>
-
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import db from './firebaseInit';
+import { useRoute, useRouter } from 'vue-router'
 import { collection, getDocs, query, where, deleteDoc } from 'firebase/firestore';
-
-import { useRoute, useRouter } from 'vue-router';
+import db from '../config/firebaseInit';
+;
 const route = useRoute();
 const router = useRouter();
 const employees = ref([]);
@@ -59,3 +39,23 @@ const deleteEmployee = async () => {
 
 onBeforeMount(fetchData);
 </script>
+
+<template>
+  <div id="view-employee">
+    <ul  v-for="employee in employees" :key="employee.id" class="collection with-header" >
+      <li class="collection-header"><h4>{{ employee.name }}</h4></li>
+      <li class="collection-item">Employee Id: {{ employee.empid }} </li>
+      <li class="collection-item">Department: {{ employee.dept }}</li>
+      <li class="collection-item">Position: {{ employee.position }} </li>
+
+      <div class="fixed-action-btn">
+        <router-link :to="{ name: 'edit-employee', params: { employee_id: employee.empid }}" class="btn-floating btn-large orange darken-4">
+          <i class="fa fa-pencil"></i>
+        </router-link>
+      </div>
+    </ul>
+  </div>
+
+  <router-link to="/" class="btn grey" >Back</router-link>
+  <button @click="deleteEmployee" class="btn orange darken-4" >Delete</button>
+</template>

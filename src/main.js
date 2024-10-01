@@ -7,7 +7,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 let app;
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
-  if (!app) {                   //Mounted and initialize only once if not created
+  if (!app) {                   //Mounted and initialize only once if not created for page refresh
     app = createApp(App)
       .use(router)
       .mount('#app');

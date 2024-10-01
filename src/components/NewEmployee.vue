@@ -1,3 +1,34 @@
+<script setup>
+import { ref } from 'vue';
+import { collection, addDoc } from 'firebase/firestore';
+import db from '../config/firebaseInit';
+
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const employee_id = ref('');
+const name = ref('');
+const dept = ref('');
+const position = ref('');
+
+const saveEmployee = async () => {
+  try {
+    await addDoc(collection(db, 'employees'),
+      {
+        employee_id: employee_id.value,
+        name: name.value,
+        dept: dept.value,
+        position: position.value
+      }
+    );
+    router.push('/');
+  } catch (error) {
+    console.error('Error adding document: ', error);
+  }
+};
+</script>
+
+
 <template>
 <div id="new-employee">
   <h3>New Employee</h3>
@@ -36,36 +67,3 @@
 </div>
 </template>
 
-
-<script setup>
-import { ref } from 'vue';
-import db from './firebaseInit';
-import { collection, addDoc } from 'firebase/firestore';
-
-import { useRouter } from 'vue-router';
-const router = useRouter();
-
-const employee_id = ref('');
-const name = ref('');
-const dept = ref('');
-const position = ref('');
-
-const saveEmployee = async () => {
-  try {
-    await addDoc(collection(db, 'employees'),
-      {
-        employee_id: employee_id.value,
-        name: name.value,
-        dept: dept.value,
-        position: position.value
-      }
-    );
-    router.push('/');
-  } catch (error) {
-    console.error('Error adding document: ', error);
-  }
-};
-</script>
-
-<style scoped>
-</style>

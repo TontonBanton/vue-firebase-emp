@@ -1,3 +1,28 @@
+<script setup>
+import { ref, onBeforeMount } from 'vue';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import db from '../config/firebaseInit';
+
+const employees = ref([]);
+
+const fetchData = async () => {
+  const employeesQuery = query(collection(db, 'employees'), orderBy('employee_id'));  // query with orderBy to sort by the 'dept'
+  const querySnapshot = await getDocs(employeesQuery);                                // Fetch documents with the query
+  querySnapshot.forEach(doc => {                                                      // iterates each document in the employees collection
+    const data = {
+      'id': doc.id,
+      'empid': doc.data().employee_id,
+      'name': doc.data().name,
+      'dept': doc.data().dept,
+      'position': doc.data().position
+    }
+    employees.value.push(data)
+  });
+};
+
+onBeforeMount(fetchData);
+</script>
+
 <template>
   <div id="dashboard">
     <ul class="collection with-header">
@@ -21,31 +46,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onBeforeMount } from 'vue';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import db from './firebaseInit';
 
-const employees = ref([]);
-
-const fetchData = async () => {
-  const employeesQuery = query(collection(db, 'employees'), orderBy('employee_id'));  // query with orderBy to sort by the 'dept'
-  const querySnapshot = await getDocs(employeesQuery);                                // Fetch documents with the query
-
-  querySnapshot.forEach(doc => {                                                      // iterates each document in the employees collection
-    const data = {
-      'id': doc.id,
-      'empid': doc.data().employee_id,
-      'name': doc.data().name,
-      'dept': doc.data().dept,
-      'position': doc.data().position
-    }
-    employees.value.push(data)
-  });
-};
-
-onBeforeMount(fetchData);
-</script>
-
-<style scoped>
-</style>

@@ -1,45 +1,7 @@
-<template>
-  <div id="edit-employee">
-    <h3>Edit Employee</h3>
-    <div class="row">
-      <form @submit.prevent="updateEmployee" class="col s12">
-
-        <div class="row">
-          <div class="input-field col s12">
-            <input disabled ="text" v-model="employee_id" required>
-            <label class="active">Employee ID#</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="name" required>
-            <label class="active">Name</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="dept" required>
-            <label class="active">Department</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" v-model="position" required>
-            <label class="active">Position</label>
-          </div>
-        </div>
-
-        <button type="submit" class="btn orange darken-4">Submit</button>
-        <router-link to="/" class="btn grey">Cancel</router-link>
-      </form>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import db from './firebaseInit';
 import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
+import db from '../config/firebaseInit';
 
 import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
@@ -83,5 +45,42 @@ const updateEmployee = async () => {
 onBeforeMount(fetchData);
 </script>
 
-<style scoped>
-</style>
+<template>
+  <div id="edit-employee">
+    <h3>Edit Employee</h3>
+    <div class="row">
+      <form @submit.prevent="updateEmployee" class="col s12">
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input disabled ="text" v-model="employee_id" required>
+            <label class="active">Employee ID#</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" v-model="name" required>
+            <label class="active">Name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" v-model="dept" required>
+            <label class="active">Department</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" v-model="position" required>
+            <label class="active">Position</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn orange darken-4">Submit</button>
+        <router-link to="/" class="btn grey">Cancel</router-link>
+      </form>
+    </div>
+  </div>
+</template>
+
+

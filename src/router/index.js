@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   const requiresGuest = to.matched.some(record => record.meta.requiresGuest);  // Route that requires guest (non-authenticated) access
 
   if (requiresAuth) {                                                             //RequiresAuth
-    !user ? next({ path: '/login', query: { redirect: to.fullPath } }) : next();  //Check if if no user is log-in go to login
+    !user ? next({ path: '/login', query: { redirect: to.fullPath } }) : next();  //Check if if no user is log, go to login
   } else if (requiresGuest) {                                                     //RequiresGuest (Register,Login)
     user ? next({ path: '/', query: { redirect: to.fullPath } }) : next();        //Check if user is log-in go to dashboard
   } else {
