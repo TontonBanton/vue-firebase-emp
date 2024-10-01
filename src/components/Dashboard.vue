@@ -31,6 +31,7 @@ onBeforeMount(fetchData);
       <!-- Loop every employee in employees array dynamic bind employee.id as key -->
       <li v-for="employee in employees" v-bind:key="employee.id" class="collection-item">
         <div class="chip">{{ employee.empid }}</div> {{ employee.name }} : {{employee.dept }}-{{ employee.position }}
+
         <!-- Route router/index.js name:view-employee, path: '/:employee_id (expecting the employee.empid value) -->
         <router-link :to="{ name: 'view-employee', params: { employee_id: employee.empid }}" class="secondary-content" >
           <i class="fa fa-eye"></i>
