@@ -33,7 +33,7 @@ const router = createRouter({
   routes
 })
 
-// Navigation guard to check for authentication
+//Navigataion guard - user authentications
 router.beforeEach(authMiddleware)
 
 export default router

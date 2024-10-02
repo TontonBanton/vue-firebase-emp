@@ -1,26 +1,8 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-import db from '../config/firebaseInit';
-
-const employees = ref([]);
-
-const fetchData = async () => {
-  const employeesQuery = query(collection(db, 'employees'), orderBy('employee_id'));  // query with orderBy to sort by the 'dept'
-  const querySnapshot = await getDocs(employeesQuery);                                // Fetch documents with the query
-  querySnapshot.forEach(doc => {                                                      // iterates each document in the employees collection
-    const data = {
-      'id': doc.id,
-      'empid': doc.data().employee_id,
-      'name': doc.data().name,
-      'dept': doc.data().dept,
-      'position': doc.data().position
-    }
-    employees.value.push(data)
-  });
-};
-
-onBeforeMount(fetchData);
+  import { onBeforeMount } from 'vue';
+  import { useEmployeeData } from '@/composables/useEmployeeData';
+  const { employees, fetchAllEmployees } = useEmployeeData();
+  onBeforeMount(fetchAllEmployees);
 </script>
 
 <template>
@@ -37,8 +19,8 @@ onBeforeMount(fetchData);
           <i class="fa fa-eye"></i>
         </router-link>
       </li>
-
     </ul>
+
     <div class="fixed-action-btn">
       <router-link to="/new" class="btn-floating btn-large orange darken-4">
         <i class="fa fa-plus"></i>

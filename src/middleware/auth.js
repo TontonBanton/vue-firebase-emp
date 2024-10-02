@@ -9,13 +9,13 @@ export const authMiddleware = (to, from, next) => {
 
   if (isAuthRequired) {
     if (!user) {
-      next({ path: '/login', query: { redirect: to.fullPath } });   // Redirect to login if not authenticated
+      next({ path: '/login', query: { redirect: to.fullPath } });   // Redirect to login if user not authenticated
     } else {
       next();                                                       // Proceed to the route if authenticated
     }
   } else if (isGuestRequired) {
     if (user) {
-      next({ path: '/', query: { redirect: to.fullPath } });        // Redirect to dashboard if already authenticated
+      next({ path: '/', query: { redirect: to.fullPath } });        // Redirect to dashboard if user authenticated
     } else {
       next();                                                       // Proceed to the route if not authenticated
     }

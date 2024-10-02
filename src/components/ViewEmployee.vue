@@ -36,7 +36,6 @@ const deleteEmployee = async () => {
   });
 };
 
-
 onBeforeMount(fetchData);
 </script>
 

@@ -1,3 +1,26 @@
+<script setup>
+import { ref } from 'vue';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+
+const login = async () => {
+  try {
+    //Sign-in the firestore user
+    const auth = getAuth();
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
+    alert(`You are log-in ${userCredential.user.email}`);
+    router.push('/');
+  } catch (error) {
+    console.error("Error creating user:", error);
+    alert(error.message);
+  }
+};
+</script>
+
 <template>
 <div class="container">
   <div class="row">
@@ -24,26 +47,3 @@
   </div>
 </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useRouter } from 'vue-router';
-const router = useRouter();
-
-const email = ref('');
-const password = ref('');
-
-const login = async () => {
-  try {
-    //Sign-in the firestore user
-    const auth = getAuth();
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
-    alert(`You are log-in ${userCredential.user.email}`);
-    router.push('/');
-  } catch (error) {
-    console.error("Error creating user:", error);
-    alert(error.message);
-  }
-};
-</script>
