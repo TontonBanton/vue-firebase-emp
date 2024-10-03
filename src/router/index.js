@@ -11,13 +11,13 @@ const routes = [
   { path: '/', name: 'dashboard', component: Dashboard,
     meta: {requiresAuth:true}
   },
-  { path: '/:employee_id', name: 'view-employee', component: ViewEmployee,
+  { path: '/:empid', name: 'view-employee', component: ViewEmployee,
     meta: {requiresAuth:true}
   },
   { path: '/new', name: 'new-employee', component: NewEmployee,
     meta: {requiresAuth:true}
   },
-  { path: '/edit/:employee_id', name: 'edit-employee', component: EditEmployee,
+  { path: '/edit/:empid', name: 'edit-employee', component: EditEmployee,
     meta: {requiresAuth:true}
   },
   { path: '/login', name: 'login', component: Login,

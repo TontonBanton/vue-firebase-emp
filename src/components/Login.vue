@@ -8,8 +8,8 @@ const email = ref('');
 const password = ref('');
 
 const login = async () => {
+   //Sign-in the firestore user
   try {
-    //Sign-in the firestore user
     const auth = getAuth();
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     alert(`You are log-in ${userCredential.user.email}`);

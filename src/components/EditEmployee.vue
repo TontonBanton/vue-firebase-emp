@@ -13,7 +13,7 @@ const dept = ref('');
 const position = ref('');
 
 const fetchData = async () => {
-  const employeeId = route.params.employee_id;
+  const employeeId = route.params.empid;
   const employeesQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
   const querySnapshot = await getDocs(employeesQuery);
 
@@ -26,7 +26,7 @@ const fetchData = async () => {
 };
 
 const updateEmployee = async () => {
-  const employeeId = route.params.employee_id;
+  const employeeId = route.params.empid;
   const employeesQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
   const querySnapshot = await getDocs(employeesQuery);
 
@@ -38,7 +38,7 @@ const updateEmployee = async () => {
       dept: dept.value,
       position: position.value
     });
-    router.push({name: 'view-employee', params: { employee_id: employee_id.value }});
+    router.push({name: 'view-employee', params: { empid: employee_id.value }});
   });
 };
 

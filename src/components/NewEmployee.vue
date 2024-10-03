@@ -1,61 +1,51 @@
 <script setup>
 import { ref } from 'vue';
-import { collection, addDoc } from 'firebase/firestore';
-import db from '../config/firebaseInit';
-
 import { useRouter } from 'vue-router';
+import { useEmployeeData } from '../composables/useEmployeeData';
+
 const router = useRouter();
+const { saveEmployee } = useEmployeeData(); // Import and use the composable
 
-const employee_id = ref('');
-const name = ref('');
-const dept = ref('');
-const position = ref('');
+const employeeData = ref({
+  employee_id: '',
+  name: '',
+  dept: '',
+  position: '',
+});
 
-const saveEmployee = async () => {
-  try {
-    await addDoc(collection(db, 'employees'),
-      {
-        employee_id: employee_id.value,
-        name: name.value,
-        dept: dept.value,
-        position: position.value
-      }
-    );
-    router.push('/');
-  } catch (error) {
-    console.error('Error adding document: ', error);
-  }
+const handleSubmit = async () => {
+  await saveEmployee(employeeData.value);
+  router.push('/');
 };
 </script>
-
 
 <template>
 <div id="new-employee">
   <h3>New Employee</h3>
   <div class="row">
-    <form @submit.prevent="saveEmployee" class="col s12">
+    <form @submit.prevent="handleSubmit" class="col s12">
 
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="employee_id" required>
+          <input type="text" v-model="employeeData.employee_id" required>
           <label>Employee ID#</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="name" required>
+          <input type="text" v-model="employeeData.name" required>
           <label>Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="dept" required>
+          <input type="text" v-model="employeeData.dept" required>
           <label>Department</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="position" required>
+          <input type="text" v-model="employeeData.position" required>
           <label>Position</label>
         </div>
       </div>
@@ -66,4 +56,3 @@ const saveEmployee = async () => {
   </div>
 </div>
 </template>
-
