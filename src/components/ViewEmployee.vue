@@ -21,14 +21,14 @@ onBeforeMount(fetchData);
 
 <template>
   <div id="view-employee">
-    <ul v-for="empInfo in employee" :key="employee.id" class="collection with-header" >
-      <li class="collection-header"><h4>{{ empInfo.name }}</h4></li>
-      <li class="collection-item">Employee Id: {{ empInfo.empid }} </li>
-      <li class="collection-item">Department: {{ empInfo.dept }}</li>
-      <li class="collection-item">Position: {{ empInfo.position }} </li>
+    <ul v-for="empData in employee" :key="empData.id" class="collection with-header" >
+      <li class="collection-header"><h4>{{ empData.name }}</h4></li>
+      <li class="collection-item">Employee Id: {{ empData.empid }} </li>
+      <li class="collection-item">Department: {{ empData.dept }}</li>
+      <li class="collection-item">Position: {{ empData.position }} </li>
 
       <div class="fixed-action-btn">
-        <router-link :to="{ name: 'edit-employee', params: { empid: empInfo.empid }}" class="btn-floating btn-large orange darken-4">
+        <router-link :to="{ name: 'edit-employee', params: { empid: empData.empid }}" class="btn-floating btn-large orange darken-4">
           <i class="fa fa-pencil"></i>
         </router-link>
       </div>

@@ -4,9 +4,9 @@ import { useRouter } from 'vue-router';
 import { useEmployeeData } from '../composables/useEmployeeData';
 
 const router = useRouter();
-const { saveEmployee } = useEmployeeData(); // Import and use the composable
+const { saveEmployee } = useEmployeeData();
 
-const employeeData = ref({
+const empData = ref({
   employee_id: '',
   name: '',
   dept: '',
@@ -14,7 +14,7 @@ const employeeData = ref({
 });
 
 const handleSubmit = async () => {
-  await saveEmployee(employeeData.value);
+  await saveEmployee(empData.value);
   router.push('/');
 };
 </script>
@@ -27,25 +27,25 @@ const handleSubmit = async () => {
 
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="employeeData.employee_id" required>
+          <input type="text" v-model="empData.employee_id" required>
           <label>Employee ID#</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="employeeData.name" required>
+          <input type="text" v-model="empData.name" required>
           <label>Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="employeeData.dept" required>
+          <input type="text" v-model="empData.dept" required>
           <label>Department</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="employeeData.position" required>
+          <input type="text" v-model="empData.position" required>
           <label>Position</label>
         </div>
       </div>

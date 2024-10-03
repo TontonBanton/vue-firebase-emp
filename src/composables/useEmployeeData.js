@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { collection, getDocs, query, orderBy, where, deleteDoc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, updateDoc, doc, addDoc, deleteDoc, orderBy } from 'firebase/firestore';
 import db from '../config/firebaseInit';
 
 export function useEmployeeData() {
@@ -20,8 +20,8 @@ export function useEmployeeData() {
   };
 
   // Fetch employee by ID
-  const fetchEmployeeById = async (routeEmpId) => {
-    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', routeEmpId));
+  const fetchEmployeeById = async (employeeId) => {
+    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
     const querySnapshot = await getDocs(empQuery);
     employee.value = querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -32,9 +32,20 @@ export function useEmployeeData() {
     }));
   };
 
+  // Update employee
+  const updateEmployee = async (employeeId, employeeData) => {
+    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
+    const querySnapshot = await getDocs(empQuery);
+
+    querySnapshot.forEach(async doc => {
+      const docRef = doc.ref;
+      await updateDoc(docRef, employeeData);
+    });
+  };
+
   // Delete employee by ID
-  const deleteEmployee = async (routeEmpId) => {
-    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', routeEmpId));
+  const deleteEmployee = async (employeeId) => {
+    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
     const querySnapshot = await getDocs(empQuery);
     await Promise.all(querySnapshot.docs.map(async (doc) => {
       await deleteDoc(doc.ref);
@@ -45,7 +56,6 @@ export function useEmployeeData() {
   const saveEmployee = async (employeeData) => {
     try {
       await addDoc(collection(db, 'employees'), employeeData);
-      console.log('Employee added:', employeeData);
     } catch (error) {
       console.error('Error adding document: ', error);
     }
@@ -56,6 +66,7 @@ export function useEmployeeData() {
     employees,
     fetchAllEmployees,
     fetchEmployeeById,
+    updateEmployee, // Add updateEmployee function
     deleteEmployee,
     saveEmployee,
   };

@@ -1,45 +1,35 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
-import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
-import db from '../config/firebaseInit';
-
 import { useRoute, useRouter } from 'vue-router';
+import { useEmployeeData } from '../composables/useEmployeeData';
+
 const route = useRoute();
 const router = useRouter();
+const routeEmpId = route.params.empid
+const { employee, fetchEmployeeById, updateEmployee } = useEmployeeData();
 
-const employee_id = ref('');
-const name = ref('');
-const dept = ref('');
-const position = ref('');
+const employeeData = ref({
+  employee_id: '',
+  name: '',
+  dept: '',
+  position: '',
+});
 
+// Fetch employee data when the component is mounted
 const fetchData = async () => {
-  const employeeId = route.params.empid;
-  const employeesQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
-  const querySnapshot = await getDocs(employeesQuery);
-
-  querySnapshot.forEach(doc => {
-    employee_id.value = doc.data().employee_id;
-    name.value = doc.data().name;
-    dept.value = doc.data().dept;
-    position.value = doc.data().position;
-  });
+  await fetchEmployeeById(routeEmpId);
+  employeeData.value = {
+    employee_id: employee.value[0]?.empid || '',
+    name: employee.value[0]?.name || '',
+    dept: employee.value[0]?.dept || '',
+    position: employee.value[0]?.position || '',
+  };
 };
 
-const updateEmployee = async () => {
-  const employeeId = route.params.empid;
-  const employeesQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
-  const querySnapshot = await getDocs(employeesQuery);
-
-  querySnapshot.forEach(async doc => {
-    const docRef = doc.ref;
-    await updateDoc(docRef, {
-      employee_id: employee_id.value,
-      name: name.value,
-      dept: dept.value,
-      position: position.value
-    });
-    router.push({name: 'view-employee', params: { empid: employee_id.value }});
-  });
+// Update employee data
+const handleUpdate = async () => {
+  await updateEmployee(routeEmpId, employeeData.value);
+  router.push({ name: 'view-employee', params: { empid: routeEmpId } });
 };
 
 onBeforeMount(fetchData);
@@ -49,29 +39,29 @@ onBeforeMount(fetchData);
   <div id="edit-employee">
     <h3>Edit Employee</h3>
     <div class="row">
-      <form @submit.prevent="updateEmployee" class="col s12">
+      <form @submit.prevent="handleUpdate" class="col s12">
 
         <div class="row">
           <div class="input-field col s12">
-            <input disabled ="text" v-model="employee_id" required>
+            <input disabled type="text" v-model="employeeData.employee_id" required>
             <label class="active">Employee ID#</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" v-model="name" required>
+            <input type="text" v-model="employeeData.name" required>
             <label class="active">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" v-model="dept" required>
+            <input type="text" v-model="employeeData.dept" required>
             <label class="active">Department</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" v-model="position" required>
+            <input type="text" v-model="employeeData.position" required>
             <label class="active">Position</label>
           </div>
         </div>
@@ -82,5 +72,6 @@ onBeforeMount(fetchData);
     </div>
   </div>
 </template>
+
 
 
