@@ -20,8 +20,8 @@ export function useEmployeeData() {
   };
 
   // Fetch employee by ID
-  const fetchEmployeeById = async (employeeId) => {
-    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
+  const fetchEmployeeById = async (routeEmpId) => {
+    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', routeEmpId));
     const querySnapshot = await getDocs(empQuery);
     employee.value = querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -32,9 +32,18 @@ export function useEmployeeData() {
     }));
   };
 
+  // Save new employee
+  const saveEmployee = async (employeeData) => {
+    try {
+      await addDoc(collection(db, 'employees'), employeeData);
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
+  };
+
   // Update employee
-  const updateEmployee = async (employeeId, employeeData) => {
-    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', employeeId));
+  const updateEmployee = async (routeEmpId, employeeData) => {
+    const empQuery = query(collection(db, 'employees'), where('employee_id', '==', routeEmpId));
     const querySnapshot = await getDocs(empQuery);
 
     querySnapshot.forEach(async doc => {
@@ -52,22 +61,13 @@ export function useEmployeeData() {
     }));
   };
 
-  // Save new employee
-  const saveEmployee = async (employeeData) => {
-    try {
-      await addDoc(collection(db, 'employees'), employeeData);
-    } catch (error) {
-      console.error('Error adding document: ', error);
-    }
-  };
-
   return {
     employee,
     employees,
     fetchAllEmployees,
     fetchEmployeeById,
-    updateEmployee, // Add updateEmployee function
-    deleteEmployee,
     saveEmployee,
+    updateEmployee,
+    deleteEmployee,
   };
 }
