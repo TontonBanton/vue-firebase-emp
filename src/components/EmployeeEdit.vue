@@ -2,12 +2,12 @@
 import EmployeeForm from './EmployeeForm.vue';
 import { ref, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useEmployeeData } from '../composables/useEmployeeData';
+import { useEmpActions } from '@/composables/useEmpActions'
 
 const route = useRoute();
 const router = useRouter();
 const routeEmpId = route.params.empid
-const { employee, fetchEmployeeById, updateEmployee } = useEmployeeData();
+const { employee, fetchEmployeeById, updateEmployee } = useEmpActions();
 
 const empData = ref({
   employee_id: '',
@@ -39,7 +39,7 @@ onBeforeMount(fetchData);
 <template>
   <div id="edit-employee">
     <h3>Edit Employee</h3>
-    <EmployeeForm :empData="empData" :isEditing="true" @submit="handleUpdate" />
+    <EmployeeForm :form="empData" :isEditing="true" @submit="handleUpdate" />
   </div>
 </template>
 

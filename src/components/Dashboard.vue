@@ -1,7 +1,7 @@
 <script setup>
   import { onBeforeMount } from 'vue';
-  import { useEmployeeData } from '@/composables/useEmployeeData';
-  const { employees, fetchAllEmployees } = useEmployeeData();
+  import { useEmpActions } from '@/composables/useEmpActions'
+  const { employees, fetchAllEmployees } = useEmpActions();
   onBeforeMount(fetchAllEmployees);
 </script>
 

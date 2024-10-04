@@ -1,8 +1,10 @@
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { collection, getDocs, query, where, updateDoc, doc, addDoc, deleteDoc, orderBy } from 'firebase/firestore';
 import db from '../config/firebaseInit';
 
-export function useEmployeeData() {
+export function useEmpActions() {
+  const router = useRouter()
   const employee = ref([]);
   const employees = ref([]);
 
@@ -36,6 +38,7 @@ export function useEmployeeData() {
   const saveEmployee = async (employeeData) => {
     try {
       await addDoc(collection(db, 'employees'), employeeData);
+      router.push('/');
     } catch (error) {
       console.error('Error adding document: ', error);
     }

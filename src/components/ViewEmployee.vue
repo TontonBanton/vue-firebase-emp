@@ -1,12 +1,12 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { onBeforeMount } from 'vue';
-import { useEmployeeData } from '../composables/useEmployeeData';
+import { useEmpActions } from '@/composables/useEmpActions'
 
 const route = useRoute();
 const router = useRouter();
 const routeEmpId = route.params.empid;
-const { employee, fetchEmployeeById, deleteEmployee } = useEmployeeData();
+const { employee, fetchEmployeeById, deleteEmployee } = useEmpActions();
 
 const fetchData = async () => {
   await fetchEmployeeById(routeEmpId);

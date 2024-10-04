@@ -1,49 +1,46 @@
 <script setup>
+  // const props = defineProps({
+  //   form: { type: Object, required: true,},
+  //   isEditing: { type: Boolean, default: false},
+  // });
+  // const emit = defineEmits(['submit']);
+  // const handleSubmit = () => {
+  //   emit('submit', props.employeeData);
+  // };
 
-const props = defineProps({
-  empData: {
-    type: Object,
-    required: true,
-  },
-  isEditing: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const emit = defineEmits(['submit']);
-
-const handleSubmit = () => {
-  emit('submit', props.empData);
-};
+  const props = defineProps({
+    form: Object,
+    submitAction: Function,
+    isEditing: { type: Boolean, default: false},
+  })
 
 </script>
 
 
 <template>
   <div>
-    <form @submit.prevent="handleSubmit" class="col s12">
+    <form @submit.prevent="submitAction(form)" class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="empData.employee_id" required :disabled="isEditing">
+          <input type="text" v-model="form.employee_id" required :disabled="isEditing">
           <label class="active">Employee ID#</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="empData.name" required>
+          <input type="text" v-model="form.name" required>
           <label class="active">Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="empData.dept" required>
+          <input type="text" v-model="form.dept" required>
           <label class="active">Department</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" v-model="empData.position" required>
+          <input type="text" v-model="form.position" required>
           <label class="active">Position</label>
         </div>
       </div>

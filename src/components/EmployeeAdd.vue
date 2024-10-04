@@ -1,28 +1,32 @@
 <script setup>
 import EmployeeForm from './EmployeeForm.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useEmployeeData } from '../composables/useEmployeeData';
+//import { ref } from 'vue';
+//import { useRouter } from 'vue-router';
+import { useEmpForm } from '@/composables/useEmpForm'
+import { useEmpActions } from '@/composables/useEmpActions'
 
-const router = useRouter();
-const { saveEmployee } = useEmployeeData();
+const { form } = useEmpForm()
+const { saveEmployee } = useEmpActions();
+//const router = useRouter();
 
-const empData = ref({
-  employee_id: '',
-  name: '',
-  dept: '',
-  position: '',
-});
+// const empData = ref({
+//   employee_id: '',
+//   name: '',
+//   dept: '',
+//   position: '',
+// });
 
-const handleSubmit = async () => {
-  await saveEmployee(empData.value);
-  router.push('/');
-};
+// const handleSubmit = async () => {
+//   await saveEmployee(empData.value);
+//   router.push('/');
+// };
+
+
 </script>
 
 <template>
   <div id="new-employee">
     <h3>New Employee</h3>
-    <EmployeeForm :empData="empData" @submit="handleSubmit" />
+    <EmployeeForm :form="form" :submitAction="saveEmployee" />
   </div>
 </template>
