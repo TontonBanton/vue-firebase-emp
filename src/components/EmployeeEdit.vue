@@ -1,37 +1,34 @@
 <script setup>
 import EmployeeForm from './EmployeeForm.vue';
-import { ref, onBeforeMount } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useEmpForm } from '@/composables/useEmpForm'
 import { useEmpActions } from '@/composables/useEmpActions'
 
-const route = useRoute();
+
 const router = useRouter();
+const route = useRoute();
 const routeEmpId = route.params.empid
+
+const { form, populateForm } = useEmpForm()
 const { employee, fetchEmployeeById, updateEmployee } = useEmpActions();
 
-const empData = ref({
-  employee_id: '',
-  name: '',
-  dept: '',
-  position: '',
-});
-
-// Fetch employee data when the component is mounted
 const fetchData = async () => {
   await fetchEmployeeById(routeEmpId);
-  empData.value = {
-    employee_id: employee.value[0]?.empid || '',
-    name: employee.value[0]?.name || '',
-    dept: employee.value[0]?.dept || '',
-    position: employee.value[0]?.position || '',
-  };
+  const fetchedEmployee = employee.value ? employee.value[0] : null; // Access the first element in the array
+  console.log('Fetched employee:', fetchedEmployee);
+  if (fetchedEmployee) {
+    populateForm(fetchedEmployee);
+  } else {
+    console.error('No employee data found for the given ID.');
+  }
 };
 
 // Update employee data
-const handleUpdate = async () => {
-  await updateEmployee(routeEmpId, empData.value);
-  router.push({ name: 'view-employee', params: { empid: routeEmpId } });
-};
+//const handleUpdate = async () => {
+//  await updateEmployee(routeEmpId, empData.value);
+// router.push({ name: 'view-employee', params: { empid: routeEmpId } });
+//};
 
 onBeforeMount(fetchData);
 </script>
@@ -39,7 +36,7 @@ onBeforeMount(fetchData);
 <template>
   <div id="edit-employee">
     <h3>Edit Employee</h3>
-    <EmployeeForm :form="empData" :isEditing="true" @submit="handleUpdate" />
+    <EmployeeForm :form="form" :isEditing="true" :submitAction="(form) => updateEmployee(routeEmpId, form)" />
   </div>
 </template>
 

@@ -53,6 +53,7 @@ export function useEmpActions() {
       const docRef = doc.ref;
       await updateDoc(docRef, employeeData);
     });
+    router.push({ name: 'view-employee', params: { empid: routeEmpId } });
   };
 
   // Delete employee by ID
