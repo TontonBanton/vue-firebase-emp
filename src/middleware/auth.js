@@ -7,19 +7,16 @@ export const authMiddleware = (to, from, next) => {
   const isAuthRequired = to.matched.some(routeInfo => routeInfo.meta.requiresAuth);
   const isGuestRequired = to.matched.some(routeInfo => routeInfo.meta.requiresGuest);
 
-  if (isAuthRequired) {
-    if (!user) {
-      next({ path: '/login', query: { redirect: to.fullPath } });   // Redirect to login if user not authenticated
-    } else {
-      next();                                                       // Proceed to the route if authenticated
-    }
-  } else if (isGuestRequired) {
-    if (user) {
-      next({ path: '/', query: { redirect: to.fullPath } });        // Redirect to dashboard if user authenticated
-    } else {
-      next();                                                       // Proceed to the route if not authenticated
-    }
-  } else {
-    next();                                                         // Proceed to the route if no special conditions are applied
+  // Redirect to login if authentication is required and user is not authenticated
+  if (isAuthRequired && !user) {
+    return next({ path: '/login', query: { redirect: to.fullPath } });
   }
+
+  // Redirect to dashboard if guest access is required and user is authenticated
+  if (isGuestRequired && user) {
+    return next({ path: '/', query: { redirect: to.fullPath } });
+  }
+
+  // Proceed to the route if no special conditions are applied
+  next();
 };
