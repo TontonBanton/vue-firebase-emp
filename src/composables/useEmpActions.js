@@ -1,21 +1,15 @@
 import { ref } from 'vue';
+import { useEmpForm } from './useEmpForm';
 import { useRouter } from 'vue-router';
 import { collection, getDocs, query, where, updateDoc, doc, addDoc, deleteDoc, orderBy } from 'firebase/firestore';
 import db from '../config/firebaseInit';
 
+
 export function useEmpActions() {
+  const { mapEmployeeData } = useEmpForm();
   const router = useRouter()
   const employee = ref([]);
   const employees = ref([]);
-
-  // Maps Firestore doc data to an employee object with specific fields.
-  const mapEmployeeData = doc => ({
-    id: doc.id,
-    empid: doc.data().employee_id,
-    name: doc.data().name,
-    dept: doc.data().dept,
-    position: doc.data().position,
-  });
 
   // Fetch all employees
   const fetchAllEmployees = async () => {

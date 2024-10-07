@@ -5,7 +5,6 @@ import { useRoute } from 'vue-router';
 import { useEmpForm } from '@/composables/useEmpForm'
 import { useEmpActions } from '@/composables/useEmpActions'
 
-
 const route = useRoute();
 const routeEmpId = route.params.empid
 
