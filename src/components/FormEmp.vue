@@ -1,21 +1,10 @@
 <script setup>
-  // const props = defineProps({
-  //   form: { type: Object, required: true,},
-  //   isEditing: { type: Boolean, default: false},
-  // });
-  // const emit = defineEmits(['submit']);
-  // const handleSubmit = () => {
-  //   emit('submit', props.employeeData);
-  // };
-
   const props = defineProps({
     form: Object,
     submitAction: Function,
     isEditing: { type: Boolean, default: false},
   })
-
 </script>
-
 
 <template>
   <div>

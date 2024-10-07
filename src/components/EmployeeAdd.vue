@@ -1,15 +1,16 @@
 <script setup>
-import EmployeeForm from './EmployeeForm.vue';
+import FormEmp from './FormEmp.vue';
 import { useEmpForm } from '@/composables/useEmpForm'
 import { useEmpActions } from '@/composables/useEmpActions'
 
 const { form } = useEmpForm()
 const { saveEmployee } = useEmpActions();
+
 </script>
 
 <template>
   <div id="new-employee">
     <h3>New Employee</h3>
-    <EmployeeForm :form="form" :submitAction="saveEmployee" />
+    <FormEmp :form="form" :submitAction="saveEmployee" />
   </div>
 </template>

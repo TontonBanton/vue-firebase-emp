@@ -1,3 +1,27 @@
+<script setup>
+import FormAuth from './FormAuth.vue';
+import { ref } from 'vue';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+
+const email = ref('');
+const password = ref('');
+const router = useRouter();
+
+const register = async () => {
+  try {
+    //Creating the firestore user
+    const auth = getAuth();
+    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    alert(`Account created for ${userCredential.user.email}`);
+    router.push('/');
+  } catch (error) {
+    console.error("Error creating user:", error);
+    alert(error.message);
+  }
+};
+</script>
+
 <template>
 <div class="container">
   <div class="row">
@@ -25,25 +49,3 @@
 </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { useRouter } from 'vue-router';
-
-const email = ref('');
-const password = ref('');
-const router = useRouter();
-
-const register = async () => {
-  try {
-    //Creating the firestore user
-    const auth = getAuth();
-    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    alert(`Account created for ${userCredential.user.email}`);
-    router.push('/');
-  } catch (error) {
-    console.error("Error creating user:", error);
-    alert(error.message);
-  }
-};
-</script>

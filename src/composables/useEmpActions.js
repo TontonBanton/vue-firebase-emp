@@ -8,30 +8,27 @@ export function useEmpActions() {
   const employee = ref([]);
   const employees = ref([]);
 
+  // Maps Firestore doc data to an employee object with specific fields.
+  const mapEmployeeData = doc => ({
+    id: doc.id,
+    empid: doc.data().employee_id,
+    name: doc.data().name,
+    dept: doc.data().dept,
+    position: doc.data().position,
+  });
+
   // Fetch all employees
   const fetchAllEmployees = async () => {
     const empQuery = query(collection(db, 'employees'), orderBy('employee_id'));
     const querySnapshot = await getDocs(empQuery);
-    employees.value = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      empid: doc.data().employee_id,
-      name: doc.data().name,
-      dept: doc.data().dept,
-      position: doc.data().position,
-    }));
+    employees.value = querySnapshot.docs.map(mapEmployeeData);
   };
 
   // Fetch employee by ID
   const fetchEmployeeById = async (routeEmpId) => {
     const empQuery = query(collection(db, 'employees'), where('employee_id', '==', routeEmpId));
     const querySnapshot = await getDocs(empQuery);
-    employee.value = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      empid: doc.data().employee_id,
-      name: doc.data().name,
-      dept: doc.data().dept,
-      position: doc.data().position,
-    }));
+    employee.value = querySnapshot.docs.map(mapEmployeeData);
   };
 
   // Save new employee
